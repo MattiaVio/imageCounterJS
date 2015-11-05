@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="it-IT" lang="it-IT" dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Image Counter by Mattia Vio</title>
+		<script type="text/javascript" src="javascript/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="javascript/common_func.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+			 $.ajax({
+				type: "GET",
+				url: "lista_specie/specie.xml", 
+				dataType: "xml",
+				success: function(xml) {	
+				 $(xml).find('specie').each(function(){	
+					var name = $(this).find('name').text();
+					$('<tr id="row_'+name+'"></tr>').html('<td id="'+name+'">'+name+'</td><td class="counter" id="counter_'+name+'" onClick="countThis(\'counter_'+name+'\')">0</td>').appendTo('#name_and_count');
+				 });
+				}
+			 });
+			});
+		</script>
+	</head>
+	<body>
+		<div id="image_container">
+			<img src="immagini/image.jpg" id="image_div" disabled="disable"/>
+		</div>
+		<br/><br/>
+		<div id="under_img_bttn">
+			<input type="button" id="rmv_mrkrs" value="remove markers" onClick="removeMarkers('markers');"/>
+			<input type="button" id="stop_cnt" value="stop current count" onClick="stopCount();"/>				
+			<input type="button" id="rmv_lst_mrkrs" value="remove last marker/count" onClick="remove_last_marker();" disabled/>	
+		</div>
+		<br/>
+		<br/>
+		<table id="name_and_count" border="1px solid black">
+			<tr>
+				<th>Specie</th>
+				<th>Conteggio</th>
+			</tr>
+		</table>
+		<br/>
+		<div id="under_tbl_bttn">
+			<input type="text" id="new_species_name" title="insert here the name of the new species and then press the button -Add new species-"/>	
+			<input type="button" id="add_new_row" value="Add new species" onClick="addNewRow('new_species_name');"/>	
+			<br/><br/>
+			<input type="text" id="species_to_remove" title="insert here the name of the specie you want to remove and press the button -Remove this Specie-"/>	
+			<input type="button" id="remove_row" value="Remove this Specie" onClick="removeRow('species_to_remove');"/>	
+			<br/><br/>
+			<input type="text" id="species_to_reset_count" title="insert here the name of the specie you want to reset the count and press the button -Reset this count-"/>	
+			<input type="button" id="reset_counter" value="Reset this count" onClick="resetCount('species_to_reset_count');"/>	
+			<br/><br/>
+			<input type="text" id="change_image" title="insert here the EXACT name with exstension of the image in the immagini directory you want to show and press -Change current image-"/>	
+			<input type="button" id="change_img_button" value="Change current image" onClick="changeImage('change_image');"/>	
+			<br/><br/><br/>
+			<input type="button" style="color:red" id="change_img_button" value="Reset all counter" onClick="$('.counter').html(0);"/>	
+		</div>
+		<br/><br/>
+		<a href="guidelines.html">go to the guideline page</a>
+	</body>
+</html>
